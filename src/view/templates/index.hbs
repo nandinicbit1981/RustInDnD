@@ -2,7 +2,8 @@
   <head>
     <title>Crush the Rust</title>
   </head>
-  <script type="text/javascript" >
+  <script type="text/javascript" src="assets/javascript/main.js">
+  escape({{jsfile}})
         nun();
         function nun(){
             var http = new XMLHttpRequest();
@@ -11,7 +12,8 @@
                 var userLast = "Parimi";
                 var params = '{"user_first":"Nandini", "user_last":"Parimi"}';
                 http.open("POST", url, true);
-                http.onreadystatechange = function() {//Call a function when the state changes.
+                http.onreadystatechange = function() {
+                //Call a function when the state changes.
                 if(http.readyState == 4 && http.status == 200) {
                         //alert(http.responseText);
 
@@ -24,6 +26,7 @@
   <body>
     <h1>Name {{name}}</h1>
     <p>Year {{year}}</p>
+    <p>js {{jsfile}}</p>
     <div>
         <label> Enter some text </label>
         <input type="text" name="fname"><br>

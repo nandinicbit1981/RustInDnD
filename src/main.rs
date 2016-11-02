@@ -41,10 +41,14 @@ fn main() {
 
     Iron::new(router).http("localhost:3000").unwrap();
 }*/
+
+
 extern crate iron;
 extern crate router;
 extern crate handlebars_iron as hbs;
 extern crate rustc_serialize;
+extern crate mount;
+extern crate staticfile;
 use iron::prelude::*;
 use iron::status;
 use router::Router;
@@ -52,7 +56,36 @@ use hbs::{Template, HandlebarsEngine, DirectorySource};
 use std::io::Read;
 use std::io;
 use rustc_serialize::json;
+use mount::*;
+use std::path::Path;
 
+use staticfile::Static;
+
+// #[derive(RustcEncodable, RustcDecodable)]
+/*struct Character {
+    id: i32,
+    name: String,
+    race: Race,
+    strength_stat: Stats,
+    dextirity_stat: Stats,
+    constitution_stat: Stats,
+    intelligence_stat: Stats,
+    wisdom_stat: Stats,
+    charisma_stat: Stats,
+    ac: i32
+}
+
+enum Race {
+    Human,
+    Dwarf,
+    Elf,
+    HalfElf
+}
+
+struct Stats {
+    stat: i32,
+    modifier: f32
+}*/
 
 /// the handlers
 fn index(_: &mut Request) -> IronResult<Response> {
@@ -68,11 +101,8 @@ fn index(_: &mut Request) -> IronResult<Response> {
     resp.set_mut(Template::new("index", m.to_json())).set_mut(status::Ok);
     Ok(resp)
 }
-#[derive(RustcEncodable, RustcDecodable)]
-struct Character {
-    user_first: String,
-    user_last: String
-}
+
+/*
 
 fn setname(request: &mut Request) -> IronResult<Response> {
     let mut payload = String::new();
@@ -83,26 +113,47 @@ fn setname(request: &mut Request) -> IronResult<Response> {
     let payload = json::encode(&greeting).unwrap();
     Ok(Response::with((status::Ok, payload)))
 }
+*/
 
 
+/*
+fn create_character(request: &mut Request) -> IronResult<Response> {
+    let mut payload = String::new();
+    request.body.read_to_string(&mut payload).unwrap();
+
+    let character: Character = json::decode(&payload).unwrap();
+    let payload = json::encode(&greeting).unwrap();
+    Ok(Response::with((status::Ok, payload)))
+}
+*/
 
 fn main() {
+
+    //router.post("/character", create_character);
+
     let mut hbse = HandlebarsEngine::new();
 
     // add a directory source, all files with .hbs suffix will be loaded as template
-    hbse.add(Box::new(DirectorySource::new("./view/templates/", ".hbs")));
+    hbse.add(Box::new(DirectorySource::new("./src/view/templates/", ".hbs")));
 
     // load templates from all registered sources
     if let Err(r) = hbse.reload() {
         panic!("{}", r);
     }
 
-    let mut router = Router::new();
-    router.get("/", index);
-    router.post("/", setname);
-
-    let mut chain = Chain::new(router);
+    let mut chain = Chain::new(index);
     chain.link_after(hbse);
+
+    let mut router = Router::new();
+    router.get("/", chain);
+
+
+    let mut assets_mount = Mount::new();
+    assets_mount
+        .mount("/", router)
+        .mount("/assets/", Static::new(Path::new("src/assets")));
+
+
     println!("Server running at http://localhost:9000/");
-    Iron::new(chain).http("localhost:9000").unwrap();
+    Iron::new(assets_mount).http("localhost:9000").unwrap();
 }
