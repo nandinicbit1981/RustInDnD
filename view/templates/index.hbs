@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <title>Crush the Rust</title>
+  </head>
+  <script type="text/javascript" >
+        nun();
+        function nun(){
+            var http = new XMLHttpRequest();
+                var url = "http://localhost:9000";
+                var userFirst = "Nandini";
+                var userLast = "Parimi";
+                var params = '{"user_first":"Nandini", "user_last":"Parimi"}';
+                http.open("POST", url, true);
+                http.onreadystatechange = function() {//Call a function when the state changes.
+                if(http.readyState == 4 && http.status == 200) {
+                        //alert(http.responseText);
+
+                        console.log(http.responseText);
+                    }
+                }
+                http.send(params);
+        };
+  </script>
+  <body>
+    <h1>Name {{name}}</h1>
+    <p>Year {{year}}</p>
+    <div>
+        <label> Enter some text </label>
+        <input type="text" name="fname"><br>
+        <input type="submit" name="lname"><br>
+    </div>
+  </body>
+</html>

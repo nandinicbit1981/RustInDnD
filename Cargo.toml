@@ -1,0 +1,11 @@
+[package]
+name = "iron_helloworld"
+version = "0.1.0"
+authors = ["nandinicbit1981 <nandinicbit@gmail.com>"]
+
+[dependencies]
+iron ="*"
+router = "*"
+maplit="*"
+rustc-serialize = "*"
+handlebars-iron="^0.19.2"
