@@ -61,17 +61,24 @@ use std::path::Path;
 
 use staticfile::Static;
 
-// #[derive(RustcEncodable, RustcDecodable)]
-/*struct Character {
+#[derive(RustcEncodable, RustcDecodable)]
+struct Character {
     id: i32,
     name: String,
-    race: Race,
-    strength_stat: Stats,
-    dextirity_stat: Stats,
-    constitution_stat: Stats,
-    intelligence_stat: Stats,
-    wisdom_stat: Stats,
-    charisma_stat: Stats,
+    class: String,
+    race: String,
+    strength_stat: i32,
+    dextirity_stat: i32,
+    constitution_stat: i32,
+    intelligence_stat: i32,
+    wisdom_stat: i32,
+    charisma_stat: i32,
+    strength_mod: i32,
+    dex_mod: i32,
+    con_mod: i32,
+    intl_mod: i32,
+    wsdm_mod: i32,
+    charisma_mod: i32,
     ac: i32
 }
 
@@ -85,7 +92,7 @@ enum Race {
 struct Stats {
     stat: i32,
     modifier: f32
-}*/
+}
 
 /// the handlers
 fn index(_: &mut Request) -> IronResult<Response> {
@@ -102,19 +109,49 @@ fn index(_: &mut Request) -> IronResult<Response> {
     Ok(resp)
 }
 
-/*
 
 fn setname(request: &mut Request) -> IronResult<Response> {
     let mut payload = String::new();
     request.body.read_to_string(&mut payload).unwrap();
 
-    let request: Character = json::decode(&payload).unwrap();
-    let greeting = Character { user_first: request.user_first, user_last: request.user_last };
+    let request: Greeting = json::decode(&payload).unwrap();
+    let greeting = Greeting { user_first: request.user_first, user_last: request.user_last };
     let payload = json::encode(&greeting).unwrap();
     Ok(Response::with((status::Ok, payload)))
 }
-*/
 
+fn create_character(request: &mut Request) -> IronResult<Response> {
+    let mut payload = String::new();
+    request.body.read_to_string(&mut payload).unwrap();
+
+    let request: Character = json::decode(&payload).unwrap();
+    let character = Character {
+                id: request.id,
+                name: request.name,
+                class: request.class,
+                race: request.race,
+                strength_stat: request.strength_stat,
+                dextirity_stat: request.dextirity_stat,
+                constitution_stat: request.constitution_stat,
+                intelligence_stat: request.intelligence_stat,
+                wisdom_stat: request.wisdom_stat,
+                charisma_stat: request.charisma_stat,
+                strength_mod: request.strength_stat,
+                dex_mod: request.dex_mod,
+                con_mod: request.con_mod,
+                intl_mod: request.intl_mod,
+                wsdm_mod: request.wsdm_mod,
+                charisma_mod: request.charisma_mod,
+                ac: request.ac };
+    let payload = json::encode(&character).unwrap();
+    Ok(Response::with((status::Ok, payload)))
+}
+
+#[derive(RustcEncodable, RustcDecodable)]
+struct Greeting {
+    user_first: String,
+    user_last: String
+}
 
 /*
 fn create_character(request: &mut Request) -> IronResult<Response> {
@@ -146,7 +183,7 @@ fn main() {
 
     let mut router = Router::new();
     router.get("/", chain);
-
+    router.post("/character", create_character);
 
     let mut assets_mount = Mount::new();
     assets_mount

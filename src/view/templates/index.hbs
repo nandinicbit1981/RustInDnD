@@ -1,36 +1,193 @@
+
 <html>
   <head>
     <title>Crush the Rust</title>
   </head>
-  <script type="text/javascript" src="assets/javascript/main.js">
-  escape({{jsfile}})
-        nun();
-        function nun(){
-            var http = new XMLHttpRequest();
-                var url = "http://localhost:9000";
-                var userFirst = "Nandini";
-                var userLast = "Parimi";
-                var params = '{"user_first":"Nandini", "user_last":"Parimi"}';
-                http.open("POST", url, true);
-                http.onreadystatechange = function() {
-                //Call a function when the state changes.
-                if(http.readyState == 4 && http.status == 200) {
-                        //alert(http.responseText);
 
-                        console.log(http.responseText);
-                    }
-                }
-                http.send(params);
-        };
-  </script>
+  <script type="text/javascript" src="assets/javascript/jquery.min.js"></script>
+  <script type="text/javascript" src="assets/javascript/main.js"></script>
+  <script type="text/javascript" src="assets/javascript/bootstrap.js"></script>
+  <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-theme.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
   <body>
-    <h1>Name {{name}}</h1>
-    <p>Year {{year}}</p>
-    <p>js {{jsfile}}</p>
-    <div>
+
+  <nav class="navbar navbar-default">
+      <div class="container-fluid">
+          <div class="navbar-header">
+              <a class="navbar-brand" href="#">
+                  <img alt="Brand" src="...">
+                  Dungeons & Dragons
+              </a>
+          </div>
+      </div>
+  </nav>
+  <div class="page-header center">
+
+      <h1>Dungeons & Dragons</h1>
+
+  </div>
+    <!--<h1>Name {{name}}</h1>-->
+    <!--<p>Year {{year}}</p>-->
+    <!--&lt;!&ndash;<div id = "test">
         <label> Enter some text </label>
         <input type="text" name="fname"><br>
         <input type="submit" name="lname"><br>
+        <button>Click me</button>
+    </div>-->
+
+    <div class="center">
+       <label> Character</label>
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="name" class="form-control" id="name">
+            </div>
+            <div class="form-group">
+                <label>Class:</label>
+                <div>
+                    <select class="selectpicker" id="classSelect">
+                        <optgroup label="select">
+                            <option>Fighter</option>
+                            <option>Cleric</option>
+                            <option>Wizard</option>
+                            <option>Thief</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Race:</label>
+                <div>
+                    <select class="selectpicker" id="raceSelect">
+                        <optgroup label="select">
+                            <option>Human</option>
+                            <option>Dwarf</option>
+                            <option>Elf</option>
+                            <option>Half-elf</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Strength:</label>
+                <div class="row">
+
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="strength_stat">
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control"  disabled="disabled" id="strength_mod">
+                    </div>
+                    <div class="col-sm-3">
+                        <button id="strength_roll" class="form-control btn btn-info">roll</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Dexterity:</label>
+                <div class="row">
+
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="dex_stat">
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" disabled="disabled" id="dex_mod">
+                    </div>
+                    <div class="col-sm-3">
+                        <button id="dex_roll" class="form-control btn btn-info">roll</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Constitution:</label>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="con_stat">
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" disabled="disabled" id="con_mod">
+                    </div>
+                    <div class="col-sm-3">
+                        <button id="con_roll" class="form-control btn btn-info">roll</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Intelligence:</label>
+                <div class="row">
+
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="intl_stat">
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" disabled="disabled" id="intl_mod">
+                    </div>
+                    <div class="col-sm-3">
+                        <button id="intl_roll" class="form-control btn btn-info">roll</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Wisdom:</label>
+                <div class="row">
+
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="wsdm_stat">
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" disabled="disabled" id="wsdm_mod">
+                    </div>
+                    <div class="col-sm-3">
+                        <button id="wsdm_roll" class="form-control btn btn-info">roll</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Charisma:</label>
+                <div class="row">
+
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="charisma_stat">
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" disabled="disabled" id="charisma_mod">
+                    </div>
+                    <div class="col-sm-3">
+                        <button id="charisma_roll" class="form-control btn btn-info">roll</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>AC:</label>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <input type="text" disabled="disabled" class="form-control" id="ac">
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!--<div class="checkbox">-->
+                <!--<label><input type="checkbox"> Remember me</label>-->
+            <!--</div>-->
+            <button type="button" class="btn btn-default" id="submitBtn">Submit</button>
+        </form>
     </div>
+
+
+
   </body>
 </html>
+
+
