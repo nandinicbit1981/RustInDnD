@@ -1,0 +1,1 @@
+DROP TABLE Character_DND

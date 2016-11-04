@@ -1,5 +1,5 @@
 [package]
-name = "iron_helloworld"
+name = "rust_in_dnd"
 version = "0.1.0"
 authors = ["nandinicbit1981 <nandinicbit@gmail.com>"]
 
@@ -11,3 +11,7 @@ rustc-serialize = "*"
 handlebars-iron="^0.19.2"
 mount="*"
 staticfile="*"
+
+diesel = { version = "0.8.1", features = ["large-tables"] }
+diesel_codegen = { version = "0.8.1", features = ["postgres"] }
+dotenv = "0.8.0"

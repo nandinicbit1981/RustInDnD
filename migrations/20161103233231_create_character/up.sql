@@ -1,0 +1,19 @@
+CREATE TABLE Character_DND (
+  id                SERIAL PRIMARY KEY,
+  name              VARCHAR NOT NULL,
+  race              VARCHAR NOT NULL,
+  class             VARCHAR NOT NULL,
+  strength_stat     INT NOT NULL,
+  dextirity_stat    INT NOT NULL,
+  constitution_stat INT NOT NULL,
+  intelligence_stat INT NOT NULL,
+  wisdom_stat       INT NOT NULL,
+  charisma_stat     INT NOT NULL,
+  strength_mod      REAL NOT NULL,
+  dex_mod           REAL NOT NULL,
+  con_mod           REAL NOT NULL,
+  intl_mod          REAL NOT NULL,
+  wsdm_mod          REAL NOT NULL,
+  charisma_mod      REAL NOT NULL,
+  ac                INT NOT NULL
+)

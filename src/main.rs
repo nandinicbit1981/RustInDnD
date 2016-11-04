@@ -42,7 +42,8 @@ fn main() {
     Iron::new(router).http("localhost:3000").unwrap();
 }*/
 
-
+extern crate rust_in_dnd;
+extern crate diesel;
 extern crate iron;
 extern crate router;
 extern crate handlebars_iron as hbs;
@@ -58,8 +59,11 @@ use std::io;
 use rustc_serialize::json;
 use mount::*;
 use std::path::Path;
-
 use staticfile::Static;
+use rust_in_dnd::*;
+use rust_in_dnd::models::*;
+use diesel::prelude::*;
+
 
 #[derive(RustcEncodable, RustcDecodable)]
 struct Character {
@@ -73,12 +77,12 @@ struct Character {
     intelligence_stat: i32,
     wisdom_stat: i32,
     charisma_stat: i32,
-    strength_mod: i32,
-    dex_mod: i32,
-    con_mod: i32,
-    intl_mod: i32,
-    wsdm_mod: i32,
-    charisma_mod: i32,
+    strength_mod: f32,
+    dex_mod: f32,
+    con_mod: f32,
+    intl_mod: f32,
+    wsdm_mod: f32,
+    charisma_mod: f32,
     ac: i32
 }
 
@@ -106,6 +110,38 @@ fn index(_: &mut Request) -> IronResult<Response> {
 
     let mut resp = Response::new();
     resp.set_mut(Template::new("index", m.to_json())).set_mut(status::Ok);
+
+/*
+    use rust_in_dnd::schema::characters::dsl::*;
+
+    let connection = establish_connection();
+    let results = characters
+        .load::<Character_DND>(&connection)
+        .expect("Error loading characters");
+
+    println!("Displaying {} characters", results.len());
+    for char in results {
+        println!("{}", char.name);
+        println!("----------\n");
+        println!("{}", char.id);
+    }*/
+
+    use rust_in_dnd::schema::character_dnd::dsl::*;
+
+    let connection = establish_connection();
+    let results = character_dnd
+        .limit(5)
+        .load::<Character_DND>(&connection)
+        .expect("Error loading posts");
+
+    println!("Displaying {} posts", results.len());
+    for post in results {
+        println!("{}", post.name);
+        println!("----------\n");
+        println!("{}", post.id);
+    }
+
+
     Ok(resp)
 }
 
@@ -136,14 +172,57 @@ fn create_character(request: &mut Request) -> IronResult<Response> {
                 intelligence_stat: request.intelligence_stat,
                 wisdom_stat: request.wisdom_stat,
                 charisma_stat: request.charisma_stat,
-                strength_mod: request.strength_stat,
+                strength_mod: request.strength_mod,
                 dex_mod: request.dex_mod,
                 con_mod: request.con_mod,
                 intl_mod: request.intl_mod,
                 wsdm_mod: request.wsdm_mod,
                 charisma_mod: request.charisma_mod,
                 ac: request.ac };
-    let payload = json::encode(&character).unwrap();
+
+    let connection = establish_connection();
+    let create_character = create_post(&connection,
+                character.name,
+                character.class,
+                character.race,
+                character.strength_stat,
+                character.dextirity_stat,
+                character.constitution_stat,
+                character.intelligence_stat,
+                character.wisdom_stat,
+                character.charisma_stat,
+                character.strength_mod,
+                character.dex_mod,
+                character.con_mod,
+                character.intl_mod,
+                character.wsdm_mod,
+                character.charisma_mod,
+                character.ac
+    );
+
+    let request: Character = Character {
+        id: create_character.id,
+        name: create_character.name,
+        class: create_character.class,
+        race: create_character.race,
+        strength_stat: create_character.strength_stat,
+        dextirity_stat: create_character.dextirity_stat,
+        constitution_stat: create_character.constitution_stat,
+        intelligence_stat: create_character.intelligence_stat,
+        wisdom_stat: create_character.wisdom_stat,
+        charisma_stat: create_character.charisma_stat,
+        strength_mod: create_character.strength_mod,
+        dex_mod: create_character.dex_mod,
+        con_mod: create_character.con_mod,
+        intl_mod: create_character.intl_mod,
+        wsdm_mod: create_character.wsdm_mod,
+        charisma_mod: create_character.charisma_mod,
+        ac: create_character.ac };
+    let payload = json::encode(&request).unwrap();
+
+
+    println!("Interesting stuff in main *************** ");
+    //println!("*******" + request.name);
     Ok(Response::with((status::Ok, payload)))
 }
 
@@ -164,6 +243,26 @@ fn create_character(request: &mut Request) -> IronResult<Response> {
 }
 */
 
+
+fn all_character(_: &mut Request) -> IronResult<Response>{
+    use rustc_serialize::json::{ToJson, Json};
+    use std::collections::BTreeMap;
+    let mut resp = Response::new();
+    let mut m: BTreeMap<String, Json> = BTreeMap::new();
+    m.insert("name".to_string(),"Nandini".to_json());
+    m.insert("year".to_string(), "2016".to_json());
+
+    resp.set_mut(Template::new("all", m.to_json())).set_mut(status::Ok);
+    use rust_in_dnd::schema::character_dnd::dsl::*;
+
+    let connection = establish_connection();
+    let results = character_dnd
+        .limit(5)
+        .load::<Character_DND>(&connection)
+        .expect("Error loading posts");
+    Ok(resp)
+}
+
 fn main() {
 
     //router.post("/character", create_character);
@@ -183,6 +282,7 @@ fn main() {
 
     let mut router = Router::new();
     router.get("/", chain);
+    router.get("/all", all_character);
     router.post("/character", create_character);
 
     let mut assets_mount = Mount::new();

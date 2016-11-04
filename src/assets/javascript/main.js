@@ -32,6 +32,8 @@ $(document).ready(function() {
         create_character("http://localhost:9000/character", params);
 
     });
+    
+    
     var Race = {
         Human: "Human",
         Dwarf: "Dwarf",
