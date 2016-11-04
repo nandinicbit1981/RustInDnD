@@ -7,7 +7,7 @@ authors = ["nandinicbit1981 <nandinicbit@gmail.com>"]
 iron ="*"
 router = "*"
 maplit="*"
-rustc-serialize = "*"
+rustc-serialize = { version = "^0.3.18", optional = true }
 handlebars-iron="^0.19.2"
 mount="*"
 staticfile="*"
@@ -15,3 +15,7 @@ staticfile="*"
 diesel = { version = "0.8.1", features = ["large-tables"] }
 diesel_codegen = { version = "0.8.1", features = ["postgres"] }
 dotenv = "0.8.0"
+
+[features]
+default = ["rustc_serialize_type"]
+rustc_serialize_type = ["rustc-serialize"]

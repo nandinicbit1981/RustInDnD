@@ -1,47 +1,3 @@
-// This is helloworld that works :)
-/*
-
-
-extern crate iron;
-extern crate router;
-extern crate rustc_serialize;
-
-use iron::prelude::*;
-use iron::status;
-use router::Router;
-use rustc_serialize::json;
-v
-
-#[derive(RustcEncodable, RustcDecodable)]
-struct Greeting {
-    msg: String
-}
-
-fn main() {
-    let mut router = Router::new();
-
-    router.get("/", hello_world);
-    router.post("/set", set_greeting);
-
-    fn hello_world(_: &mut Request) -> IronResult<Response> {
-        let greeting = Greeting { msg: "Hello, World".to_string() };
-        let payload = json::encode(&greeting).unwrap();
-        Ok(Response::with((status::Ok, payload)))
-    }
-
-    // Receive a message by POST and play it back.
-    fn set_greeting(request: &mut Request) -> IronResult<Response> {
-        let mut payload = String::new();
-        request.body.read_to_string(&mut payload).unwrap();
-        let request: Greeting = json::decode(&payload).unwrap();
-        let greeting = Greeting { msg: request.msg };
-        let payload = json::encode(&greeting).unwrap();
-        Ok(Response::with((status::Ok, payload)))
-    }
-
-    Iron::new(router).http("localhost:3000").unwrap();
-}*/
-
 extern crate rust_in_dnd;
 extern crate diesel;
 extern crate iron;
@@ -63,6 +19,7 @@ use staticfile::Static;
 use rust_in_dnd::*;
 use rust_in_dnd::models::*;
 use diesel::prelude::*;
+
 
 
 #[derive(RustcEncodable, RustcDecodable)]
@@ -111,21 +68,6 @@ fn index(_: &mut Request) -> IronResult<Response> {
     let mut resp = Response::new();
     resp.set_mut(Template::new("index", m.to_json())).set_mut(status::Ok);
 
-/*
-    use rust_in_dnd::schema::characters::dsl::*;
-
-    let connection = establish_connection();
-    let results = characters
-        .load::<Character_DND>(&connection)
-        .expect("Error loading characters");
-
-    println!("Displaying {} characters", results.len());
-    for char in results {
-        println!("{}", char.name);
-        println!("----------\n");
-        println!("{}", char.id);
-    }*/
-
     use rust_in_dnd::schema::character_dnd::dsl::*;
 
     let connection = establish_connection();
@@ -140,8 +82,6 @@ fn index(_: &mut Request) -> IronResult<Response> {
         println!("----------\n");
         println!("{}", post.id);
     }
-
-
     Ok(resp)
 }
 
@@ -218,11 +158,8 @@ fn create_character(request: &mut Request) -> IronResult<Response> {
         wsdm_mod: create_character.wsdm_mod,
         charisma_mod: create_character.charisma_mod,
         ac: create_character.ac };
+
     let payload = json::encode(&request).unwrap();
-
-
-    println!("Interesting stuff in main *************** ");
-    //println!("*******" + request.name);
     Ok(Response::with((status::Ok, payload)))
 }
 
@@ -232,43 +169,7 @@ struct Greeting {
     user_last: String
 }
 
-/*
-fn create_character(request: &mut Request) -> IronResult<Response> {
-    let mut payload = String::new();
-    request.body.read_to_string(&mut payload).unwrap();
-
-    let character: Character = json::decode(&payload).unwrap();
-    let payload = json::encode(&greeting).unwrap();
-    Ok(Response::with((status::Ok, payload)))
-}
-*/
-
-
 fn all_character(_: &mut Request) -> IronResult<Response>{
-  /*  println!("I am here ^^^^^^^^^^^");
-    use rustc_serialize::json::{ToJson, Json};
-    use std::collections::BTreeMap;
-    let mut resp = Response::new();
-    let mut m: BTreeMap<String, Json> = BTreeMap::new();
-    m.insert("name".to_string(),"Nandini".to_json());
-    m.insert("year".to_string(), "2016".to_json());
-
-//    resp.set_mut(Template::new("all", m.to_json())).set_mut(status::Ok);
-
-
-    let mut resp = Response::new();
-    resp.set_mut(Template::new("index", m.to_json())).set_mut(status::Ok);
-
-    *//*use rust_in_dnd::schema::character_dnd::dsl::*;
-
-    let connection = establish_connection();
-    let results = character_dnd
-        .limit(5)
-        .load::<Character_DND>(&connection)
-        .expect("Error loading posts");*//*
-    Ok(resp)*/
-
-
     use rustc_serialize::json::{ToJson, Json};
     use std::collections::BTreeMap;
 
@@ -278,22 +179,7 @@ fn all_character(_: &mut Request) -> IronResult<Response>{
 
 
     let mut resp = Response::new();
-    resp.set_mut(Template::new("all", m.to_json())).set_mut(status::Ok);
-
-    /*
-        use rust_in_dnd::schema::characters::dsl::*;
-
-        let connection = establish_connection();
-        let results = characters
-            .load::<Character_DND>(&connection)
-            .expect("Error loading characters");
-
-        println!("Displaying {} characters", results.len());
-        for char in results {
-            println!("{}", char.name);
-            println!("----------\n");
-            println!("{}", char.id);
-        }*/
+    //resp.set_mut(Template::new("all", m.to_json())).set_mut(status::Ok);
 
     use rust_in_dnd::schema::character_dnd::dsl::*;
 
@@ -303,15 +189,37 @@ fn all_character(_: &mut Request) -> IronResult<Response>{
         .load::<Character_DND>(&connection)
         .expect("Error loading posts");
 
-    println!("Displaying {} posts", results.len());
+    let mut vec: Vec<Character> = Vec::new();
+
     for post in results {
-        println!("{}", post.name);
-        println!("----------\n");
-        println!("{}", post.id);
+        let request: Character = Character {
+            id: post.id,
+            name: post.name,
+            class: post.class,
+            race: post.race,
+            strength_stat: post.strength_stat,
+            dextirity_stat: post.dextirity_stat,
+            constitution_stat: post.constitution_stat,
+            intelligence_stat: post.intelligence_stat,
+            wisdom_stat: post.wisdom_stat,
+            charisma_stat: post.charisma_stat,
+            strength_mod: post.strength_mod,
+            dex_mod: post.dex_mod,
+            con_mod: post.con_mod,
+            intl_mod: post.intl_mod,
+            wsdm_mod: post.wsdm_mod,
+            charisma_mod: post.charisma_mod,
+            ac: post.ac
+        };
+        vec.push(request);
     }
 
+    let payload:String = json::encode(&vec).unwrap();
+    println!("Interesting stuff in main *************** ");
 
-    Ok(resp)
+    //resp.set_mut(payload).set_mut(status::Ok);
+     Ok(Response::with((status::Ok, payload)));
+    //Ok(resp);
 }
 
 fn main() {
@@ -328,17 +236,20 @@ fn main() {
         panic!("{}", r);
     }
 
-    let mut chain = Chain::new(index);
-    chain.link_after(hbse);
+
 
     let mut router = Router::new();
-    router.get("/", chain);
-    router.get("/all", all_character);
+    router.get("/", index);
+    router.get("all", all_character);
     router.post("/character", create_character);
+
+
+    let mut chain = Chain::new(router);
+    chain.link_after(hbse);
 
     let mut assets_mount = Mount::new();
     assets_mount
-        .mount("/", router)
+        .mount("/", chain)
         .mount("/assets/", Static::new(Path::new("src/assets")));
 
 
