@@ -245,6 +245,7 @@ fn create_character(request: &mut Request) -> IronResult<Response> {
 
 
 fn all_character(_: &mut Request) -> IronResult<Response>{
+  /*  println!("I am here ^^^^^^^^^^^");
     use rustc_serialize::json::{ToJson, Json};
     use std::collections::BTreeMap;
     let mut resp = Response::new();
@@ -252,7 +253,48 @@ fn all_character(_: &mut Request) -> IronResult<Response>{
     m.insert("name".to_string(),"Nandini".to_json());
     m.insert("year".to_string(), "2016".to_json());
 
+//    resp.set_mut(Template::new("all", m.to_json())).set_mut(status::Ok);
+
+
+    let mut resp = Response::new();
+    resp.set_mut(Template::new("index", m.to_json())).set_mut(status::Ok);
+
+    *//*use rust_in_dnd::schema::character_dnd::dsl::*;
+
+    let connection = establish_connection();
+    let results = character_dnd
+        .limit(5)
+        .load::<Character_DND>(&connection)
+        .expect("Error loading posts");*//*
+    Ok(resp)*/
+
+
+    use rustc_serialize::json::{ToJson, Json};
+    use std::collections::BTreeMap;
+
+    let mut m: BTreeMap<String, Json> = BTreeMap::new();
+    m.insert("name".to_string(),"Nandini".to_json());
+    m.insert("year".to_string(), "2016".to_json());
+
+
+    let mut resp = Response::new();
     resp.set_mut(Template::new("all", m.to_json())).set_mut(status::Ok);
+
+    /*
+        use rust_in_dnd::schema::characters::dsl::*;
+
+        let connection = establish_connection();
+        let results = characters
+            .load::<Character_DND>(&connection)
+            .expect("Error loading characters");
+
+        println!("Displaying {} characters", results.len());
+        for char in results {
+            println!("{}", char.name);
+            println!("----------\n");
+            println!("{}", char.id);
+        }*/
+
     use rust_in_dnd::schema::character_dnd::dsl::*;
 
     let connection = establish_connection();
@@ -260,6 +302,15 @@ fn all_character(_: &mut Request) -> IronResult<Response>{
         .limit(5)
         .load::<Character_DND>(&connection)
         .expect("Error loading posts");
+
+    println!("Displaying {} posts", results.len());
+    for post in results {
+        println!("{}", post.name);
+        println!("----------\n");
+        println!("{}", post.id);
+    }
+
+
     Ok(resp)
 }
 
