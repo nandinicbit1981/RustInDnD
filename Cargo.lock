@@ -5,8 +5,10 @@ dependencies = [
  "diesel 0.8.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "diesel_codegen 0.8.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "dotenv 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "env_logger 0.3.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "handlebars-iron 0.19.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "iron 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "log 0.3.6 (registry+https://github.com/rust-lang/crates.io-index)",
  "maplit 0.1.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "mount 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "router 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -79,6 +81,15 @@ name = "dotenv"
 version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
+ "regex 0.1.80 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "env_logger"
+version = "0.3.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "log 0.3.6 (registry+https://github.com/rust-lang/crates.io-index)",
  "regex 0.1.80 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -501,6 +512,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 "checksum diesel_codegen 0.8.1 (registry+https://github.com/rust-lang/crates.io-index)" = "1376be54f782ab94178cf7b14347c3200c8b858285b77b8eeede0ddfb8783019"
 "checksum diesel_codegen_shared 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)" = "09d4c594e4fce9b1dc34bf82220493204fffa323354f44f3c391824423986caf"
 "checksum dotenv 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)" = "eea1395d2df3b5344dc577809296d9578303296e8d105c408aa80ed67d598ef1"
+"checksum env_logger 0.3.5 (registry+https://github.com/rust-lang/crates.io-index)" = "15abd780e45b3ea4f76b4e9a26ff4843258dd8a3eed2775a0e7368c2e7936c2f"
 "checksum error 0.1.9 (registry+https://github.com/rust-lang/crates.io-index)" = "a6e606f14042bb87cc02ef6a14db6c90ab92ed6f62d87e69377bc759fd7987cc"
 "checksum handlebars 0.22.0 (registry+https://github.com/rust-lang/crates.io-index)" = "6da0edf25d314f3e823541f46b3cffcb23fbd7e40accd77e9e6ebfa2133a93d2"
 "checksum handlebars-iron 0.19.2 (registry+https://github.com/rust-lang/crates.io-index)" = "dd24d7b0db372da7704f829b9b3f137d21b897eca4665899d3d153e929dbaeae"

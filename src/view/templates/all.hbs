@@ -2,6 +2,13 @@
 <head>
     <title>Crush the Rust</title>
 </head>
+<script type="text/javascript" src="assets/javascript/jquery.min.js"></script>
+<script type="text/javascript" src="assets/javascript/main.js"></script>
+<script type="text/javascript" src="assets/javascript/bootstrap.js"></script>
+<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="assets/css/bootstrap-theme.css">
+<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 <body>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
@@ -32,8 +39,15 @@
         </div>
     </div>
 </nav>
-
-
+{{characters}}
+<ul>
+{{#each characters}}
+    <li class="{{#if @first}}champion{{/if}}">
+        {{@index}}. <b>{{name}}</b>: {{class}}
+    </li>
+{{/each}}
+</ul>
+{{name}}
 
 </body>
 </html>

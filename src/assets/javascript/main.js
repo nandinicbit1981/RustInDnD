@@ -33,7 +33,7 @@ $(document).ready(function() {
 
     });
     
-    
+    var charc = [{"name":"dina"}];
     var Race = {
         Human: "Human",
         Dwarf: "Dwarf",

@@ -6,6 +6,12 @@ extern crate handlebars_iron as hbs;
 extern crate rustc_serialize;
 extern crate mount;
 extern crate staticfile;
+#[macro_use]
+extern crate log;
+extern crate env_logger;
+
+use log::LogLevel;
+
 use iron::prelude::*;
 use iron::status;
 use router::Router;
@@ -19,11 +25,11 @@ use staticfile::Static;
 use rust_in_dnd::*;
 use rust_in_dnd::models::*;
 use diesel::prelude::*;
-
+use std::process;
 
 
 #[derive(RustcEncodable, RustcDecodable)]
-struct Character {
+pub struct Character {
     id: i32,
     name: String,
     class: String,
@@ -192,7 +198,7 @@ fn all_character(_: &mut Request) -> IronResult<Response>{
     let mut vec: Vec<Character> = Vec::new();
 
     for post in results {
-        let request: Character = Character {
+       /* let request: Character = Character {
             id: post.id,
             name: post.name,
             class: post.class,
@@ -209,17 +215,64 @@ fn all_character(_: &mut Request) -> IronResult<Response>{
             intl_mod: post.intl_mod,
             wsdm_mod: post.wsdm_mod,
             charisma_mod: post.charisma_mod,
-            ac: post.ac
-        };
-        vec.push(request);
+            ac: post.ac,
+        };*/
+        vec.push(Character {
+            id:1,
+            name:"Nandini".to_string(),
+            class:"Fighter".to_string(),
+            race:"Human".to_string(),
+            strength_stat:1,
+            dextirity_stat:1,
+            constitution_stat:1,
+            intelligence_stat:1,
+            wisdom_stat:1,
+            charisma_stat:1,
+            strength_mod:0.0,
+            dex_mod:0.0,
+            con_mod:0.0,
+            intl_mod:0.0,
+            wsdm_mod:0.0,
+            charisma_mod:0.0,
+            ac:0
+        }
+        );
+    }
+
+
+    let mut m: BTreeMap<String, Json> = BTreeMap::new();
+    impl ToJson for Character {
+        fn to_json(&self) -> Json {
+            let mut m: BTreeMap<String, Json> = BTreeMap::new();
+            m.insert("id".to_string(), self.id.to_json());
+            m.insert("name".to_string(), self.name.to_json());
+            m.insert("class".to_string(), self.class.to_json());
+            m.insert("race".to_string(), self.race.to_json());
+            m.insert("strength_stat".to_string(), self.strength_stat.to_json());
+            m.insert("dextirity_stat".to_string(), self.dextirity_stat.to_json());
+            m.insert("constitution_stat".to_string(), self.constitution_stat.to_json());
+            m.insert("intelligence_stat".to_string(), self.intelligence_stat.to_json());
+            m.insert("wisdom_stat".to_string(), self.wisdom_stat.to_json());
+            m.insert("charisma_stat".to_string(), self.charisma_stat.to_json());
+            m.insert("strength_mod".to_string(), self.strength_mod.to_json());
+            m.insert("dex_mod".to_string(), self.dex_mod.to_json());
+            m.insert("con_mod".to_string(), self.con_mod.to_json());
+            m.insert("intl_mod".to_string(), self.intl_mod.to_json());
+            m.insert("wsdm_mod".to_string(), self.wsdm_mod.to_json());
+            m.insert("charisma_mod".to_string(), self.charisma_mod.to_json());
+            m.insert("ac".to_string(), self.ac.to_json());
+            m.to_json()
+        }
     }
 
     let payload:String = json::encode(&vec).unwrap();
-    println!("Interesting stuff in main *************** ");
+    let mut m: BTreeMap<String, Json> = BTreeMap::new();
+    m.insert("characters".to_string(),vec.to_json());
+    resp.set_mut(Template::new("all", m.to_json())).set_mut(status::Ok);
+    Ok(resp)
 
     //resp.set_mut(payload).set_mut(status::Ok);
-     Ok(Response::with((status::Ok, payload)));
-    //Ok(resp);
+    //Ok(Response::with((status::Ok, payload)))
 }
 
 fn main() {
