@@ -13,6 +13,8 @@ mount="*"
 staticfile="*"
 log="*"
 env_logger="*"
+params="*"
+urlencoded="*"
 
 diesel = { version = "0.8.1", features = ["large-tables"] }
 diesel_codegen = { version = "0.8.1", features = ["postgres"] }

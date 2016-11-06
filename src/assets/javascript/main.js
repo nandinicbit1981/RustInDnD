@@ -48,7 +48,7 @@ $(document).ready(function() {
     $(".view-character").click(function() {
         alert($(this).data("id"));
         var id = $(this).data("id");
-        get_character("http://localhost:9000/character", id);
+        get_character("http://localhost:9000/character/id", id);
         // var element = $(".view-character").data("id");
 
     });
@@ -98,25 +98,20 @@ $(document).ready(function() {
         http.send(params);
     };
 
-    function get_character(url, id) {
-
-        var http = new XMLHttpRequest();
-        var url = url;
-        var params = {
-            id: id
-        };
-        var json = JSON.stringify(params);
-        http.open("GET", url, true);
-        http.onreadystatechange = function() {
-            //Call a function when the state changes.
-            if(http.readyState == 4 && http.status == 200) {
-                //alert(http.responseText);
-
-                console.log(http.responseText);
-            }
-        }
-        http.send(params);
-
-
-    }
+    // function get_character(url, id) {
+    //
+    //     var http = new XMLHttpRequest();
+    //     var url = url;
+    //     var params = {
+    //         id: id
+    //     };
+    //     http.open("GET", url + "?id="+id, true);
+    //     http.onreadystatechange = function() {
+    //         //Call a function when the state changes.
+    //         if(http.readyState == 4 && http.status == 200) {
+    //             console.log(http.responseText);
+    //         }
+    //     };
+    //     http.send();
+    // }
 });

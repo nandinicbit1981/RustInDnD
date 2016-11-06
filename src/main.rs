@@ -9,6 +9,8 @@ extern crate staticfile;
 #[macro_use]
 extern crate log;
 extern crate env_logger;
+extern crate params;
+extern crate urlencoded;
 
 use log::LogLevel;
 
@@ -26,6 +28,10 @@ use rust_in_dnd::*;
 use rust_in_dnd::models::*;
 use diesel::prelude::*;
 use std::process;
+use params::Params;
+use urlencoded::UrlEncodedQuery;
+use urlencoded::UrlEncodedBody;
+use std::collections::HashMap;
 
 
 #[derive(RustcEncodable, RustcDecodable)]
@@ -106,24 +112,22 @@ fn get_character(request: &mut Request) -> IronResult<Response> {
 
     use rustc_serialize::json::{ToJson, Json};
     use std::collections::BTreeMap;
-
     let mut resp = Response::new();
     use rust_in_dnd::schema::character_dnd::dsl::*;
     #[derive(RustcEncodable, RustcDecodable)]
     pub struct paramsStruct {
         id: i32
     };
+    let mut nandini = 0;
 
-    let mut payload = String::new();
-    request.body.read_to_string(&mut payload).unwrap();
-    let param: paramsStruct = json::decode(&payload).unwrap();
-    let params = paramsStruct {
-        id: param.id,
-        };
-
+    if let Ok(ref hashmap) = request.get_ref::<UrlEncodedQuery>() {
+        println!("username: {:?}", hashmap.get("id").unwrap());
+        nandini = hashmap.get("id").unwrap()[0].parse::<i32>().unwrap();
+        println!("{:?}", nandini);
+    }
     let connection = establish_connection();
     let results = character_dnd
-        .filter(id.eq(params.id))
+        .filter(id.eq(nandini))
         .load::<Character_DND>(&connection)
         .expect("Error loading posts");
 
@@ -154,8 +158,10 @@ fn get_character(request: &mut Request) -> IronResult<Response> {
 
     let mut m: BTreeMap<String, Json> = BTreeMap::new();
     m.insert("characters".to_string(),vec.to_json());
-    resp.set_mut(Template::new("all", m.to_json())).set_mut(status::Ok);
+    resp.set_mut(Template::new("character", m.to_json())).set_mut(status::Ok);
     Ok(resp)
+//    resp.set_mut(Template::new("character", m.to_json())).set_mut(status::Ok);
+//    Ok(resp)
 }
 
 fn create_character(request: &mut Request) -> IronResult<Response> {
@@ -312,12 +318,10 @@ fn main() {
         panic!("{}", r);
     }
 
-
-
     let mut router = Router::new();
     router.get("/", index);
     router.get("all", all_character);
-    router.get("/character", get_character);
+    router.get("/characterbyid", get_character);
     router.post("/character", create_character);
 
 
