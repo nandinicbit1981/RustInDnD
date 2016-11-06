@@ -68,3 +68,16 @@ pub fn create_post(conn: &PgConnection,
         .get_result(conn)
         .expect("Error saving new post")
 }
+
+//
+//
+//pub fn get_character_by_id(conn: &PgConnection,
+//                   character_id  : i32) -> Character_DND {
+//    use schema::character_dnd;
+//
+//    println!("inserting stuff");
+//
+//
+//    diesel::select(character_id)
+//
+//}

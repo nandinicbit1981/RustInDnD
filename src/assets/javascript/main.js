@@ -27,10 +27,9 @@ $(document).ready(function() {
                             intlStat, wsdmStat, charismaStat,
                             strengthMod, dextirityMod, constitutionMod,
                             intlMod, wsdmMod, charismaMod, ac);
-        var params = JSON.stringify(charInst)
+        var params = JSON.stringify(charInst);
         alert(JSON.stringify(charInst));
         create_character("http://localhost:9000/character", params);
-
     });
     
     var charc = [{"name":"dina"}];
@@ -45,6 +44,14 @@ $(document).ready(function() {
         stat: undefined,
         modifier: undefined
     };
+
+    $(".view-character").click(function() {
+        alert($(this).data("id"));
+        var id = $(this).data("id");
+        get_character("http://localhost:9000/character", id);
+        // var element = $(".view-character").data("id");
+
+    });
 
     function Character(name, className,raceName,
                        strengthStat, dextirityStat, constitutionStat,
@@ -75,22 +82,9 @@ $(document).ready(function() {
         return character;
     }
 
-
-
-
-   /* $("button").click(function(){
-        alert("sdf")
-        $("#test").hide();
-    });*/
-
-   // post_example();
     function create_character(url,params){
         var http = new XMLHttpRequest();
-        //var url = "http://localhost:9000";
-
         var url = url;
-        var userFirst = "Nandini";
-        var userLast = "Parimi";
         var params = params;
         http.open("POST", url, true);
         http.onreadystatechange = function() {
@@ -103,4 +97,26 @@ $(document).ready(function() {
         }
         http.send(params);
     };
+
+    function get_character(url, id) {
+
+        var http = new XMLHttpRequest();
+        var url = url;
+        var params = {
+            id: id
+        };
+        var json = JSON.stringify(params);
+        http.open("GET", url, true);
+        http.onreadystatechange = function() {
+            //Call a function when the state changes.
+            if(http.readyState == 4 && http.status == 200) {
+                //alert(http.responseText);
+
+                console.log(http.responseText);
+            }
+        }
+        http.send(params);
+
+
+    }
 });

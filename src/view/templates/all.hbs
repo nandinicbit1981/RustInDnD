@@ -39,15 +39,44 @@
         </div>
     </div>
 </nav>
-{{characters}}
-<ul>
-{{#each characters}}
-    <li class="{{#if @first}}champion{{/if}}">
-        {{@index}}. <b>{{name}}</b>: {{class}}
-    </li>
-{{/each}}
-</ul>
-{{name}}
-
+<div class="row center">
+    <div class="col-md-8 ">
+        <table class="table-responsive table table-striped">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>Name</th>
+                    <th>Class</th>
+                    <th>Race</th>
+                    <th>&nbsp;</th>
+                    <!--<th>Strength Stat</th>
+                    <th>Dextirity Stat</th>
+                    <th>Constitution Stat</th>
+                    <th>Intelligence Stat</th>
+                    <th>Wisdom Stat</th>
+                    <th>Charisma Stat</th>
+                    <th>strength_mod</th>
+                    <th>dex_mod</th>
+                    <th>con_mod</th>
+                    <th>intl_mod</th>
+                    <th>wsdm_mod</th>
+                    <th>charisma_mod</th>
+                    <th>ac</th>-->
+                </tr>
+            </thead>
+            <tbody>
+                {{#each characters}}
+                    <tr>
+                        <td>{{id}}</td>
+                        <td>{{name}}</td>
+                        <td>{{class}}</td>
+                        <td>{{race}}</td>
+                        <td><a href="#" class="view-character" data-id="{{id}}">view</a></td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
 </html>

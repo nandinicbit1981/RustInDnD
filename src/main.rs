@@ -102,6 +102,62 @@ fn setname(request: &mut Request) -> IronResult<Response> {
     Ok(Response::with((status::Ok, payload)))
 }
 
+fn get_character(request: &mut Request) -> IronResult<Response> {
+
+    use rustc_serialize::json::{ToJson, Json};
+    use std::collections::BTreeMap;
+
+    let mut resp = Response::new();
+    use rust_in_dnd::schema::character_dnd::dsl::*;
+    #[derive(RustcEncodable, RustcDecodable)]
+    pub struct paramsStruct {
+        id: i32
+    };
+
+    let mut payload = String::new();
+    request.body.read_to_string(&mut payload).unwrap();
+    let param: paramsStruct = json::decode(&payload).unwrap();
+    let params = paramsStruct {
+        id: param.id,
+        };
+
+    let connection = establish_connection();
+    let results = character_dnd
+        .filter(id.eq(params.id))
+        .load::<Character_DND>(&connection)
+        .expect("Error loading posts");
+
+    let mut vec: Vec<Character> = Vec::new();
+
+    for post in results {
+        vec.push(Character {
+            id: post.id,
+            name: post.name,
+            class: post.class,
+            race: post.race,
+            strength_stat: post.strength_stat,
+            dextirity_stat: post.dextirity_stat,
+            constitution_stat: post.constitution_stat,
+            intelligence_stat: post.intelligence_stat,
+            wisdom_stat: post.wisdom_stat,
+            charisma_stat: post.charisma_stat,
+            strength_mod: post.strength_mod,
+            dex_mod: post.dex_mod,
+            con_mod: post.con_mod,
+            intl_mod: post.intl_mod,
+            wsdm_mod: post.wsdm_mod,
+            charisma_mod: post.charisma_mod,
+            ac: post.ac,
+        });
+    }
+    let payload:String = json::encode(&vec).unwrap();
+
+    let mut m: BTreeMap<String, Json> = BTreeMap::new();
+    m.insert("characters".to_string(),vec.to_json());
+    resp.set_mut(Template::new("all", m.to_json())).set_mut(status::Ok);
+    Ok(resp)
+}
+
 fn create_character(request: &mut Request) -> IronResult<Response> {
     let mut payload = String::new();
     request.body.read_to_string(&mut payload).unwrap();
@@ -179,14 +235,7 @@ fn all_character(_: &mut Request) -> IronResult<Response>{
     use rustc_serialize::json::{ToJson, Json};
     use std::collections::BTreeMap;
 
-    let mut m: BTreeMap<String, Json> = BTreeMap::new();
-    m.insert("name".to_string(),"Nandini".to_json());
-    m.insert("year".to_string(), "2016".to_json());
-
-
     let mut resp = Response::new();
-    //resp.set_mut(Template::new("all", m.to_json())).set_mut(status::Ok);
-
     use rust_in_dnd::schema::character_dnd::dsl::*;
 
     let connection = establish_connection();
@@ -198,7 +247,7 @@ fn all_character(_: &mut Request) -> IronResult<Response>{
     let mut vec: Vec<Character> = Vec::new();
 
     for post in results {
-       /* let request: Character = Character {
+        vec.push(Character {
             id: post.id,
             name: post.name,
             class: post.class,
@@ -216,29 +265,8 @@ fn all_character(_: &mut Request) -> IronResult<Response>{
             wsdm_mod: post.wsdm_mod,
             charisma_mod: post.charisma_mod,
             ac: post.ac,
-        };*/
-        vec.push(Character {
-            id:1,
-            name:"Nandini".to_string(),
-            class:"Fighter".to_string(),
-            race:"Human".to_string(),
-            strength_stat:1,
-            dextirity_stat:1,
-            constitution_stat:1,
-            intelligence_stat:1,
-            wisdom_stat:1,
-            charisma_stat:1,
-            strength_mod:0.0,
-            dex_mod:0.0,
-            con_mod:0.0,
-            intl_mod:0.0,
-            wsdm_mod:0.0,
-            charisma_mod:0.0,
-            ac:0
-        }
-        );
+        });
     }
-
 
     let mut m: BTreeMap<String, Json> = BTreeMap::new();
     impl ToJson for Character {
@@ -270,14 +298,9 @@ fn all_character(_: &mut Request) -> IronResult<Response>{
     m.insert("characters".to_string(),vec.to_json());
     resp.set_mut(Template::new("all", m.to_json())).set_mut(status::Ok);
     Ok(resp)
-
-    //resp.set_mut(payload).set_mut(status::Ok);
-    //Ok(Response::with((status::Ok, payload)))
 }
 
 fn main() {
-
-    //router.post("/character", create_character);
 
     let mut hbse = HandlebarsEngine::new();
 
@@ -294,6 +317,7 @@ fn main() {
     let mut router = Router::new();
     router.get("/", index);
     router.get("all", all_character);
+    router.get("/character", get_character);
     router.post("/character", create_character);
 
 
