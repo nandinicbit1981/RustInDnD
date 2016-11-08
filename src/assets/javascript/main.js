@@ -1,6 +1,52 @@
 $(document).ready(function() {
-     $('#classSelect').val($("#classSelect").attr("value"));
+    $('#classSelect').val($("#classSelect").attr("value"));
     $('#raceSelect').val($("#raceSelect").attr("value"));
+
+    $("#strength_stat").on("change",function(){
+        var value = $("#strength_stat").val();
+        var mod = (value - 11)/2;
+        console.log(mod.toFixed(2));
+        $("#strength_mod").val(mod.toFixed(2));
+    });
+
+    $("#dex_stat").on("change",function(){
+        var value = $("#dex_stat").val();
+        var mod = (value - 11)/2;
+        console.log(mod.toFixed(2));
+        $("#dex_mod").val(mod.toFixed(2));
+        $("#ac").val(parseInt(value)+10);
+    });
+
+    $("#con_stat").on("change",function(){
+        var value = $("#con_stat").val();
+        var mod = (value - 11)/2;
+        console.log(mod.toFixed(2));
+        $("#con_mod").val(mod.toFixed(2));
+
+    });
+
+    $("#wsdm_stat").on("change",function(){
+        var value = $("#wsdm_stat").val();
+        var mod = (value - 11)/2;
+        console.log(mod.toFixed(2));
+        $("#wsdm_mod").val(mod.toFixed(2));
+    });
+
+    $("#intl_stat").on("change",function(){
+        var value = $("#intl_stat").val();
+        var mod = (value - 11)/2;
+        console.log(mod.toFixed(2));
+        $("#intl_mod").val(mod.toFixed(2));
+    });
+
+    $("#charisma_stat").on("change",function(){
+        var value = $("#charisma_stat").val();
+        var mod = (value - 11)/2;
+        console.log(mod.toFixed(2));
+        $("#charisma_mod").val(mod.toFixed(2));
+    });
+
+
     $("#submitBtn").click(function () {
 
         var name = $("#name").val();
@@ -20,13 +66,12 @@ $(document).ready(function() {
         var charismaMod = $("#charisma_mod").val() != "" ? $("#charisma_mod").val() : 0;
         var ac = $("#ac").val() != "" ? $("#ac").val() : 0;
 
-        var charInst = new Character(name, className,raceName,
+        var charInst = new CharacterWithoutName(name, className,raceName,
                             strengthStat, dextirityStat, constitutionStat,
                             intlStat, wsdmStat, charismaStat,
                             strengthMod, dextirityMod, constitutionMod,
                             intlMod, wsdmMod, charismaMod, ac);
         var params = JSON.stringify(charInst);
-        alert(JSON.stringify(charInst));
         create_character("http://localhost:9000/characters/create", params);
     });
 
@@ -47,15 +92,21 @@ $(document).ready(function() {
         var wsdmMod = $("#wsdm_mod").val() != "" ? $("#wsdm_mod").val() : 0;
         var charismaMod = $("#charisma_mod").val() != "" ? $("#charisma_mod").val() : 0;
         var ac = $("#ac").val() != "" ? $("#ac").val() : 0;
-
-        var charInst = new Character(name, className,raceName,
+        var id = $("#editSubmitBtn").data("id");
+        var charInst = new Character(id, name, className,raceName,
             strengthStat, dextirityStat, constitutionStat,
             intlStat, wsdmStat, charismaStat,
             strengthMod, dextirityMod, constitutionMod,
             intlMod, wsdmMod, charismaMod, ac);
         var params = JSON.stringify(charInst);
-        alert(JSON.stringify(charInst));
-        edit_character("http://localhost:9000/characters/edit", params);
+
+        edit_character("http://localhost:9000/characters/edit/"+id, params);
+
+    });
+
+    $("#deleteCharacter").click(function() {
+        var id = $("#deleteCharacter").data("id");
+        delete_character("http://localhost:9000/characters/"+id);
 
     });
     
@@ -73,14 +124,13 @@ $(document).ready(function() {
     };
 
     $(".view-character").click(function() {
-        alert($(this).data("id"));
         var id = $(this).data("id");
         get_character("http://localhost:9000/character/id", id);
         // var element = $(".view-character").data("id");
 
     });
 
-    function Character(name, className,raceName,
+    function CharacterWithoutName(name, className,raceName,
                        strengthStat, dextirityStat, constitutionStat,
                        intlStat, wsdmStat, charismaStat,
                        strengthMod, dextirityMod, constitutionMod,
@@ -88,6 +138,35 @@ $(document).ready(function() {
 
         var character = {
             id:0,
+            name: name,
+            class: className,
+            race: raceName,
+            strength_stat: strengthStat,
+            dextirity_stat: dextirityStat,
+            constitution_stat: constitutionStat,
+            intelligence_stat: intlStat,
+            wisdom_stat: wsdmStat,
+            charisma_stat: charismaStat,
+            strength_mod: strengthMod,
+            dex_mod: dextirityMod,
+            con_mod:constitutionMod,
+            intl_mod:intlMod,
+            wsdm_mod: wsdmMod,
+            charisma_mod: charismaMod,
+            ac: ac
+        };
+
+        return character;
+    }
+
+    function Character(id, name, className,raceName,
+                       strengthStat, dextirityStat, constitutionStat,
+                       intlStat, wsdmStat, charismaStat,
+                       strengthMod, dextirityMod, constitutionMod,
+                       intlMod, wsdmMod, charismaMod, ac) {
+
+        var character = {
+            id:id,
             name: name,
             class: className,
             race: raceName,
@@ -117,11 +196,9 @@ $(document).ready(function() {
         http.onreadystatechange = function() {
             //Call a function when the state changes.
             if(http.readyState == 4 && http.status == 200) {
-                //alert(http.responseText);
-
-                console.log(http.responseText);
+                  console.log(http.responseText);
             }
-        }
+        };
         http.send(params);
     };
 
@@ -142,21 +219,17 @@ $(document).ready(function() {
         http.send(params);
     };
 
-
-    // function get_character(url, id) {
-    //
-    //     var http = new XMLHttpRequest();
-    //     var url = url;
-    //     var params = {
-    //         id: id
-    //     };
-    //     http.open("GET", url + "?id="+id, true);
-    //     http.onreadystatechange = function() {
-    //         //Call a function when the state changes.
-    //         if(http.readyState == 4 && http.status == 200) {
-    //             console.log(http.responseText);
-    //         }
-    //     };
-    //     http.send();
-    // }
+    function delete_character(url){
+        var http = new XMLHttpRequest();
+        var url = url;
+        http.open("DELETE", url, true);
+        http.onreadystatechange = function() {
+            //Call a function when the state changes.
+            if(http.readyState == 4 && http.status == 200) {
+                console.log(http.responseText);
+            }
+        };
+        http.send();
+    };
+    
 });
