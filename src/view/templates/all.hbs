@@ -21,8 +21,8 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/all">Link <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">Link</a></li>
+                <li class="active"><a href="/characters">All <span class="sr-only">(current)</span></a></li>
+                <li><a href="/characters/create">Create</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -49,19 +49,8 @@
                     <th>Class</th>
                     <th>Race</th>
                     <th>&nbsp;</th>
-                    <!--<th>Strength Stat</th>
-                    <th>Dextirity Stat</th>
-                    <th>Constitution Stat</th>
-                    <th>Intelligence Stat</th>
-                    <th>Wisdom Stat</th>
-                    <th>Charisma Stat</th>
-                    <th>strength_mod</th>
-                    <th>dex_mod</th>
-                    <th>con_mod</th>
-                    <th>intl_mod</th>
-                    <th>wsdm_mod</th>
-                    <th>charisma_mod</th>
-                    <th>ac</th>-->
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
@@ -71,7 +60,9 @@
                         <td>{{name}}</td>
                         <td>{{class}}</td>
                         <td>{{race}}</td>
-                        <td><a href="/characterbyid?id={{id}}" class="view-character" data-id="{{id}}">view</a></td>
+                        <td><a href="/characters/html/{{id}}" class="view-character" data-id="{{id}}">view</a></td>
+                        <td><a href="/characters/json/{{id}}">json</a></td>
+                        <td><a href="/characters/edit/{{id}}">edit</a></td>
                     </tr>
                 {{/each}}
             </tbody>

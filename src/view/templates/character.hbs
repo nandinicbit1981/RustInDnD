@@ -2,27 +2,26 @@
 <head>
     <title>Crush the Rust</title>
 </head>
-<script type="text/javascript" src="/assets/javascript/jquery.min.js"></script>
-<script type="text/javascript" src="assets/javascript/main.js"></script>
-<script type="text/javascript" src="assets/javascript/bootstrap.js"></script>
-<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
-<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="assets/css/bootstrap-theme.css">
-<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+<script type="text/javascript" src="../../assets/javascript/jquery.min.js"></script>
+<script type="text/javascript" src="../../assets/javascript/main.js"></script>
+<script type="text/javascript" src="../../assets/javascript/bootstrap.js"></script>
+<link rel="stylesheet" type="text/css" href="../../assets/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="../../assets/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../../assets/css/bootstrap-theme.css">
+<link rel="stylesheet" type="text/css" href="../../assets/css/style.css">
 <body>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">
-                <img alt="Brand" src="...">
                 Dungeons & Dragons
             </a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/all">Link <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">Link</a></li>
+                <li class="active"><a href="/characters">All <span class="sr-only">(current)</span></a></li>
+                <li><a href="/characters/create">Create</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -67,8 +66,7 @@
 
             <div class="row">
                 <div class="col-sm-2">
-                    <label>Stat :</label>
-                    {{strength_stat}}
+                    Stat: {{strength_stat}}
                 </div>
                 <div class="col-sm-2">
                     Mod :{{strength_mod}}
@@ -86,71 +84,62 @@
                     Stat: {{dextirity_stat}}
                 </div>
                 <div class="col-sm-2">
+                    Mod: {{dex_mod}}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div>
+                <label>Constitution:</label>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                   Stat: {{constitution_stat}}
+                </div>
+                <div class="col-sm-2">
                     Mod: {{con_mod}}
                 </div>
             </div>
-
         </div>
-
         <div class="form-group">
-            <div class="row col-sm-2">
-                <label>Constitution Stat:</label>
-                <div>
-                   {{constitution_stat}}
-                </div>
+            <div>
+                <label>Intelligence:</label>
             </div>
-            <div class="col-sm-2">
-                <label>Constitution Modifier:</label>
-                <div>
-                    {{con_mod}}
+            <div class="row">
+                <div class="col-sm-2">
+                    Stat: {{intelligence_stat}}
                 </div>
-            </div>
-        </div>
-        <!--wsdm_mod: f32,-->
-        <!--charisma_mod: f32,-->
-        <!--ac: i32-->
-        <div class="form-group">
-            <div class="row col-sm-2">
-                <label>Intelligence Stat:</label>
-                <div>
-                    {{intelligence_stat}}
-                </div>
-            </div>
-
-            <div class="col-sm-2">
-                <label>Intelligence Modifier:</label>
-                <div>
-                    {{intl_mod}}
+                <div class="col-sm-2">
+                    Mod: {{intl_mod}}
                 </div>
             </div>
         </div>
 
         <div class="form-group">
-            <div class="row col-sm-2">
-                <label>Wisdom Stat:</label>
-                <div>
-                    {{wisdom_stat}}
-                </div>
+            <div>
+                <label>Wisdom:</label>
             </div>
-            <div class="col-sm-2">
-                <label>Wisdom Modifier:</label>
-                <div>
-                    {{wsdm_mod}}
+            <div class="row">
+                <div class="col-sm-2">
+                    Stat: {{wisdom_stat}}
+                </div>
+                <div class="col-sm-2">
+                    Mod: {{wsdm_mod}}
                 </div>
             </div>
         </div>
 
         <div class="form-group">
-            <div class="row col-sm-2">
+            <div>
                 <label>Charisma:</label>
-                <div>
-                    {{charisma_stat}}
-                </div>
             </div>
-            <div class="col-sm-2">
-                <label>Charisma Modifier:</label>
-                <div>
-                    {{charisma_mod}}
+            <div class="row">
+                <div class="col-sm-2">
+                    Stat: {{charisma_stat}}
+                </div>
+                <div class="col-sm-2">
+                    Mod: {{charisma_mod}}
                 </div>
             </div>
         </div>
