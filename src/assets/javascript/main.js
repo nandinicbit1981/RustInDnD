@@ -72,7 +72,7 @@ $(document).ready(function() {
                             strengthMod, dextirityMod, constitutionMod,
                             intlMod, wsdmMod, charismaMod, ac);
         var params = JSON.stringify(charInst);
-        create_character("http://localhost:9000/characters/create", params);
+        create_character("/characters/create", params);
     });
 
     $("#editSubmitBtn").click(function() {
@@ -100,13 +100,13 @@ $(document).ready(function() {
             intlMod, wsdmMod, charismaMod, ac);
         var params = JSON.stringify(charInst);
 
-        edit_character("http://localhost:9000/characters/edit/"+id, params);
+        edit_character("/characters/edit/"+id, params);
 
     });
 
     $("#deleteCharacter").click(function() {
         var id = $("#deleteCharacter").data("id");
-        delete_character("http://localhost:9000/characters/"+id);
+        delete_character("/characters/"+id);
 
     });
     
@@ -125,7 +125,7 @@ $(document).ready(function() {
 
     $(".view-character").click(function() {
         var id = $(this).data("id");
-        get_character("http://localhost:9000/character/id", id);
+        get_character("/character/id", id);
         // var element = $(".view-character").data("id");
 
     });
