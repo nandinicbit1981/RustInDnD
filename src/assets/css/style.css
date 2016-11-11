@@ -3,3 +3,35 @@
     width: 50%;
     padding: 10px;
 }
+.background-dd {
+    background-image: url('../images/wp3.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    height:100%
+}
+
+.button-div {
+    padding-left: 360px;
+    padding-top: 300px;
+}
+
+.navbar {
+   background: none;
+
+    border:none;
+    color:navajowhite;
+}
+
+.navbar-header {
+    color:navajowhite;
+}
+
+.text-white{
+    color:wheat; !important;
+}
+
+.background-white {
+    background-color: rgba(245, 245, 245, 0.8);
+}

@@ -9,147 +9,137 @@
 <link rel="stylesheet" type="text/css" href="../../assets/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="../../assets/css/bootstrap-theme.css">
 <link rel="stylesheet" type="text/css" href="../../assets/css/style.css">
-<body>
+<body class="background-dd">
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">
-                Dungeons & Dragons
+            <a class="navbar-brand text-white" href="#" >
+                <span class="text-white h4">Dungeons & Dragons</span>
             </a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/characters">All <span class="sr-only">(current)</span></a></li>
-                <li><a href="/characters/create">Create</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
-                    </ul>
-                </li>
+                <li><a href="/characters"><span class="text-white">All</span></a></li>
+                <li><a href="/characters/create"><span class="text-white">Create</span></a></li>
             </ul>
         </div>
     </div>
 </nav>
-<div class="center">
-{{#each characters}}
-    <form class="form-horizontal">
-        <div class="form-group">
-            <label for="name">Name:</label>
-            {{name}}
-        </div>
-        <div class="form-group">
-            <label>Class:</label>
-            <div>
-               {{class}}
-            </div>
-        </div>
+<div class="center background-white row">
+    <div class="col-sm-10">
+        {{#each characters}}
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    {{name}}
+                </div>
+                <div class="form-group">
+                    <label>Class:</label>
+                    <div>
+                       {{class}}
+                    </div>
+                </div>
 
-        <div class="form-group">
-            <label>Race:</label>
-            <div>
-                {{race}}
-            </div>
-        </div>
+                <div class="form-group">
+                    <label>Race:</label>
+                    <div>
+                        {{race}}
+                    </div>
+                </div>
 
-        <div class="form-group">
-            <div>
-                <label>Strength:</label>
-            </div>
+                <div class="form-group">
+                    <div>
+                        <label>Strength:</label>
+                    </div>
 
-            <div class="row">
-                <div class="col-sm-2">
-                    Stat: {{strength_stat}}
-                </div>
-                <div class="col-sm-2">
-                    Mod :{{strength_mod}}
-                </div>
-            </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            Stat: {{strength_stat}}
+                        </div>
+                        <div class="col-sm-2">
+                            Mod :{{strength_mod}}
+                        </div>
+                    </div>
 
-        </div>
+                </div>
 
-        <div class="form-group">
-            <div>
-                <label>Dexterity:</label>
-            </div>
-            <div class="row">
-                <div class="col-sm-2">
-                    Stat: {{dextirity_stat}}
+                <div class="form-group">
+                    <div>
+                        <label>Dexterity:</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            Stat: {{dextirity_stat}}
+                        </div>
+                        <div class="col-sm-2">
+                            Mod: {{dex_mod}}
+                        </div>
+                    </div>
                 </div>
-                <div class="col-sm-2">
-                    Mod: {{dex_mod}}
-                </div>
-            </div>
-        </div>
 
-        <div class="form-group">
-            <div>
-                <label>Constitution:</label>
-            </div>
-            <div class="row">
-                <div class="col-sm-2">
-                   Stat: {{constitution_stat}}
+                <div class="form-group">
+                    <div>
+                        <label>Constitution:</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                           Stat: {{constitution_stat}}
+                        </div>
+                        <div class="col-sm-2">
+                            Mod: {{con_mod}}
+                        </div>
+                    </div>
                 </div>
-                <div class="col-sm-2">
-                    Mod: {{con_mod}}
+                <div class="form-group">
+                    <div>
+                        <label>Intelligence:</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            Stat: {{intelligence_stat}}
+                        </div>
+                        <div class="col-sm-2">
+                            Mod: {{intl_mod}}
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div>
-                <label>Intelligence:</label>
-            </div>
-            <div class="row">
-                <div class="col-sm-2">
-                    Stat: {{intelligence_stat}}
-                </div>
-                <div class="col-sm-2">
-                    Mod: {{intl_mod}}
-                </div>
-            </div>
-        </div>
 
-        <div class="form-group">
-            <div>
-                <label>Wisdom:</label>
-            </div>
-            <div class="row">
-                <div class="col-sm-2">
-                    Stat: {{wisdom_stat}}
+                <div class="form-group">
+                    <div>
+                        <label>Wisdom:</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            Stat: {{wisdom_stat}}
+                        </div>
+                        <div class="col-sm-2">
+                            Mod: {{wsdm_mod}}
+                        </div>
+                    </div>
                 </div>
-                <div class="col-sm-2">
-                    Mod: {{wsdm_mod}}
-                </div>
-            </div>
-        </div>
 
-        <div class="form-group">
-            <div>
-                <label>Charisma:</label>
-            </div>
-            <div class="row">
-                <div class="col-sm-2">
-                    Stat: {{charisma_stat}}
+                <div class="form-group">
+                    <div>
+                        <label>Charisma:</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            Stat: {{charisma_stat}}
+                        </div>
+                        <div class="col-sm-2">
+                            Mod: {{charisma_mod}}
+                        </div>
+                    </div>
                 </div>
-                <div class="col-sm-2">
-                    Mod: {{charisma_mod}}
-                </div>
-            </div>
-        </div>
 
-        <div class="form-group">
-            <label>AC:</label>
-            {{ac}}
-        </div>
-    </form>
-    {{/each}}
+                <div class="form-group">
+                    <label>AC:</label>
+                    {{ac}}
+                </div>
+            </form>
+            {{/each}}
+    </div>
 </div>
 </body>
 </html>
