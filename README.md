@@ -1,4 +1,4 @@
-# RustInDnD
+# Rust + Handlebar + Diesel + Postgres
 This is the hackathon project
 
 
