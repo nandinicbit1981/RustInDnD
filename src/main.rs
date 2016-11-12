@@ -554,5 +554,6 @@ fn main() {
 
 
     println!("Server running at http://0.0.0.0:9000/");
-    Iron::new(assets_mount).http("localhost:9000").unwrap();
+    //Iron::new(assets_mount).http("localhost:9000").unwrap();
+    Iron::new(assets_mount).http("0.0.0.0:9000").unwrap();
 }
