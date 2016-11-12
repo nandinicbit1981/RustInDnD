@@ -197,6 +197,7 @@ $(document).ready(function() {
             //Call a function when the state changes.
             if(http.readyState == 4 && http.status == 200) {
                   console.log(http.responseText);
+                    window.location.href = "/characters";
             }
         };
         http.send(params);
@@ -211,9 +212,8 @@ $(document).ready(function() {
         http.onreadystatechange = function() {
             //Call a function when the state changes.
             if(http.readyState == 4 && http.status == 200) {
-                //alert(http.responseText);
-
                 console.log(http.responseText);
+                window.location.href = "/characters";
             }
         }
         http.send(params);
@@ -227,6 +227,7 @@ $(document).ready(function() {
             //Call a function when the state changes.
             if(http.readyState == 4 && http.status == 200) {
                 console.log(http.responseText);
+                window.location.href = "/characters";
             }
         };
         http.send();
